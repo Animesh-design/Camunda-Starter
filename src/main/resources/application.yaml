@@ -1,0 +1,8 @@
+camunda.bpm:
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Tuxedo
+  filter:
+    create: All tasks
+server.port: 8282

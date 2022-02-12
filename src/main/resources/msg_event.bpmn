@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1s257pa" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_0mgv60k" isExecutable="true">
+    <bpmn:startEvent id="msgsample" name="msgsample" camunda:formKey="">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="springname" label="springname" type="string" />
+          <camunda:formField id="gender" label="gender" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_11r8j81</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_04bgnw3" messageRef="Message_023g9j9" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_11r8j81" sourceRef="msgsample" targetRef="Msgsample-service1" />
+    <bpmn:sequenceFlow id="Flow_1dl92tp" sourceRef="Msgsample-service1" targetRef="user-task1-msg" />
+    <bpmn:sequenceFlow id="Flow_106kb43" sourceRef="user-task1-msg" targetRef="user-task2-msg" />
+    <bpmn:endEvent id="Event_1ldfrbo">
+      <bpmn:incoming>Flow_12mszwa</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_12mszwa" sourceRef="user-task2-msg" targetRef="Event_1ldfrbo" />
+    <bpmn:serviceTask id="Msgsample-service1" name="Msgsample-service1" camunda:class="org.camunda.bpm.getstarted.loanapproval.delegate.msgsampleService1">
+      <bpmn:incoming>Flow_11r8j81</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dl92tp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="user-task1-msg" name="user-task1-msg" camunda:formKey="">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="name" label="name" type="string" />
+          <camunda:formField id="springname" label="springname" type="string" />
+          <camunda:formField id="servicewar" label="servicewar" type="string" />
+          <camunda:formField id="wantwork" label="wantwork" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1dl92tp</bpmn:incoming>
+      <bpmn:incoming>Flow_1h1hpwx</bpmn:incoming>
+      <bpmn:outgoing>Flow_106kb43</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="user-task2-msg" name="user-task2-msg">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="org.camunda.bpm.getstarted.loanapproval.delegate.msgsampleService2" event="start">
+          <camunda:field name="inj1">
+            <camunda:string>name</camunda:string>
+          </camunda:field>
+          <camunda:field name="inj2">
+            <camunda:expression>Hello ${gender == "male"? "Mr" : "Mrs"} ${name}</camunda:expression>
+          </camunda:field>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_106kb43</bpmn:incoming>
+      <bpmn:outgoing>Flow_12mszwa</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="Event_1khrpi0" attachedToRef="user-task2-msg">
+      <bpmn:outgoing>Flow_1h1hpwx</bpmn:outgoing>
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0ytaj88">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${wantwork == "true"}</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_1h1hpwx" sourceRef="Event_1khrpi0" targetRef="user-task1-msg" />
+  </bpmn:process>
+  <bpmn:message id="Message_15hbbg6" name="Message_16668gi" />
+  <bpmn:message id="Message_1afb1g5" name="Message_0ehul23" />
+  <bpmn:message id="Message_0vw906z" name="Message_1m012vt" />
+  <bpmn:message id="Message_0ek96pf" name="Message_22oh6k6" />
+  <bpmn:message id="Message_1dw4f7g" name="Message_1cdf0km" />
+  <bpmn:message id="Message_1fkrfhu" name="Message_0l58p37" />
+  <bpmn:message id="Message_0zupqkm" name="Message_022u9q3" />
+  <bpmn:message id="Message_0jmmhm4" name="Message_31upr0f" />
+  <bpmn:message id="Message_0rgrtf5" name="Message_17vjqib" />
+  <bpmn:message id="Message_03q5l2l" name="Message_0ahu90l" />
+  <bpmn:message id="Message_05a921o" name="Message_0mcnbht" />
+  <bpmn:message id="Message_1419x2u" name="Message_1motqjp" />
+  <bpmn:message id="Message_1q9rd4n" name="Message_0nautqt" />
+  <bpmn:message id="Message_1vc27ej" name="Message_1h5sbkb" />
+  <bpmn:message id="Message_0v9uui7" />
+  <bpmn:message id="Message_023g9j9" name="msg-s-1" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0mgv60k">
+      <bpmndi:BPMNEdge id="Flow_11r8j81_di" bpmnElement="Flow_11r8j81">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="270" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1dl92tp_di" bpmnElement="Flow_1dl92tp">
+        <di:waypoint x="370" y="177" />
+        <di:waypoint x="430" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_106kb43_di" bpmnElement="Flow_106kb43">
+        <di:waypoint x="530" y="177" />
+        <di:waypoint x="590" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12mszwa_di" bpmnElement="Flow_12mszwa">
+        <di:waypoint x="690" y="177" />
+        <di:waypoint x="752" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1h1hpwx_di" bpmnElement="Flow_1h1hpwx">
+        <di:waypoint x="640" y="119" />
+        <di:waypoint x="640" y="99" />
+        <di:waypoint x="470" y="99" />
+        <di:waypoint x="470" y="137" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_12wtgpt_di" bpmnElement="msgsample">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="170" y="202" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ldfrbo_di" bpmnElement="Event_1ldfrbo">
+        <dc:Bounds x="752" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xo0kji_di" bpmnElement="Msgsample-service1">
+        <dc:Bounds x="270" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15lxqos_di" bpmnElement="user-task1-msg">
+        <dc:Bounds x="430" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u2mszx_di" bpmnElement="user-task2-msg">
+        <dc:Bounds x="590" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1wm5j2p_di" bpmnElement="Event_1khrpi0">
+        <dc:Bounds x="622" y="119" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
